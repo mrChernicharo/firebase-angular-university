@@ -13,6 +13,8 @@ var config = {
   appId: "1:170806523820:web:a3181632d54d076a0bec09"
 };
 
+
+
 console.log("Uploading data to the database with the following config:\n");
 
 console.log(JSON.stringify(config));
