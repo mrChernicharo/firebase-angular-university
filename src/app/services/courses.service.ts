@@ -12,7 +12,9 @@ export class CoursesService {
 
   loadAllCourses(): Observable<Course[]> {
     return this.db
-      .collection("courses", (ref) => ref.orderBy("seqNo"))
+      .collection("courses", (ref) =>
+        ref.where("seqNo", ">=", 2).where("seqNo", "<=", 4)
+      )
       .snapshotChanges()
       .pipe(
         map((snaps) => {
