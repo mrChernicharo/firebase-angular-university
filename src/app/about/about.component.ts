@@ -1,17 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { AngularFirestore } from "@angular/fire/firestore";
 import { Course } from "app/model/course";
-
-import * as firebase from "firebase/app";
-import "firebase/firestore";
-// import { firestore } from  'firebase'
-import { environment } from "../../environments/environment";
-
-firebase.initializeApp(environment.firebaseConfig);
-
-const db = firebase.firestore();
-
-// const settings = { timestampsInSnapshots: true };
-// db.settings(settings);
 
 @Component({
   selector: "about",
@@ -19,18 +8,12 @@ const db = firebase.firestore();
   styleUrls: ["./about.component.css"],
 })
 export class AboutComponent implements OnInit {
-  constructor() {}
+  constructor(private db: AngularFirestore) {}
 
   ngOnInit() {
-    db.collection("courses")
-      .get()
-      .then((snaps) => {
-        // console.log(snaps);
-        const courses = snaps.docs.map((snap) => {
-          const course = <Course>{ id: snap.id, ...snap.data() };
-          return course;
-        });
-        console.log(courses);
-      });
+    this.db
+      .collection("courses")
+      .valueChanges()
+      .subscribe((val) => console.log(val));
   }
 }
