@@ -13,7 +13,8 @@ export class CoursesService {
   loadAllCourses(): Observable<Course[]> {
     return this.db
       .collection("courses", (ref) =>
-        ref.where("seqNo", ">=", 2).where("seqNo", "<=", 4)
+        // ref.where("seqNo", ">=", 2).where("seqNo", "<=", 4)
+        ref.orderBy("seqNo")
       )
       .snapshotChanges()
       .pipe(
@@ -29,28 +30,3 @@ export class CoursesService {
       );
   }
 }
-
-// db.collection("courses", (ref) =>
-// ref.orderBy("seqNo", "desc").where("seqNo", "==", 3)
-// )
-
-// db.collection("courses", (ref) =>
-// ref
-//   .orderBy("seqNo", "asc")
-//   .where("seqNo", ">=", 2)
-//   .where("seqNo", "<", 9)
-// )
-
-// db.collection("courses", (ref) =>
-// ref.orderBy("seqNo", "asc").startAt(0).endAt(5)
-
-// db.collection("courses", (ref) =>
-// ref.orderBy("seqNo", "asc").startAfter(-1).endAt(5)
-
-// db.collection("courses", (ref) =>
-//         ref.where("categories", "array-contains", "BEGINNER")
-// )
-
-//  db.collection("courses", (ref) =>
-//      ref.where("categories", "array-contains", "ADVANCED")
-//    )
