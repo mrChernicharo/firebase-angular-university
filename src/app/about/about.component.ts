@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { Course } from "app/model/course";
 
 import * as firebase from "firebase/app";
 import "firebase/firestore";
@@ -30,12 +31,23 @@ export class AboutComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    db.doc("courses/R8mq7RDDirwcO6tg1Dt0")
-      .get()
-      .then((snap) => console.log(snap.data()));
+    // db.doc("courses/R8mq7RDDirwcO6tg1Dt0")
+    //   .get()
+    //   .then((snap) => console.log(snap.data()));
 
-    db.doc("/courses/R8mq7RDDirwcO6tg1Dt0/lessons/5e6fp67m9haBhoF3oLWu")
+    // db.doc("/courses/R8mq7RDDirwcO6tg1Dt0/lessons/5e6fp67m9haBhoF3oLWu")
+    //   .get()
+    //   .then((snap) => console.log(snap.data()));
+
+    db.collection("courses")
       .get()
-      .then((snap) => console.log(snap.data()));
+      .then((snaps) => {
+        // console.log(snaps);
+        const courses = snaps.docs.map((snap) => {
+          const course = <Course>{ id: snap.id, ...snap.data() };
+          return course;
+        });
+        console.log(courses);
+      });
   }
 }
