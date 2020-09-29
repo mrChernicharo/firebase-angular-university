@@ -45,7 +45,7 @@ export class CoursesService {
     courseId: string,
     sortOrder: firebase.firestore.OrderByDirection = "asc",
     pageNumber = 0,
-    pageSize = 4
+    pageSize = 3
   ): Observable<Lesson[]> {
     return this.db
       .collection(`courses/${courseId}/lessons`, (ref) => {
