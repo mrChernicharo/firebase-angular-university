@@ -18,7 +18,8 @@ import { CourseDialogComponent } from "../course-dialog/course-dialog.component"
 export class CoursesCardListComponent implements OnInit {
   @Input()
   courses: Course[];
-  @Output() coursesEdited = new EventEmitter();
+  @Output()
+  coursesEdited = new EventEmitter();
 
   constructor(private dialog: MatDialog) {}
 
