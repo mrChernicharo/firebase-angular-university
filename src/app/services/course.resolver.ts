@@ -6,15 +6,19 @@ import {
 } from "@angular/router";
 import { Course } from "../model/course";
 import { Observable, of } from "rxjs";
+import { CoursesService } from "./courses.service";
 
 @Injectable()
 export class CourseResolver implements Resolve<Course> {
-  constructor() {}
+  constructor(private coursesService: CoursesService) {}
 
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<Course> {
-    return of(undefined);
+    // return of(undefined);
+    const courseURL = route.paramMap.get("courseUrl");
+
+    return this.coursesService.findCourseByUrl(courseURL);
   }
 }
