@@ -1,18 +1,33 @@
-import { Component, OnInit } from '@angular/core';
-import * as firebaseui from 'firebaseui';
-import * as firebase from 'firebase/app';
-
+import { Component, OnInit } from "@angular/core";
+import * as firebaseui from "firebaseui";
+import * as firebase from "firebase/app";
+import { AngularFireAuth } from "@angular/fire/auth";
 
 @Component({
-  selector: 'login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  selector: "login",
+  templateUrl: "./login.component.html",
+  styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent implements OnInit {
+  ui: firebaseui.auth.AuthUI;
 
-  constructor() { }
+  constructor(private afAuth: AngularFireAuth) {}
 
   ngOnInit() {
+    const uiConfig: firebaseui.auth.Config = {
+      signInOptions: [
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      ],
+      callbacks: {
+        signInSuccessWithAuthResult: this.onLoginSuccess.bind(this),
+      },
+    };
+
+    this.ui = new firebaseui.auth.AuthUI(this.afAuth.auth);
+
+    this.ui.start("#firebaseui-auth-container", uiConfig);
   }
 
+  onLoginSuccess() {}
 }
