@@ -17,6 +17,10 @@ export class HomeComponent implements OnInit {
   constructor(private coursesService: CoursesService) {}
 
   ngOnInit() {
+    this.reloadCourses();
+  }
+
+  reloadCourses() {
     this.courses$ = this.coursesService.loadAllCourses();
 
     this.beginnerCourses$ = this.courses$.pipe(
@@ -30,8 +34,5 @@ export class HomeComponent implements OnInit {
         courses.filter((course) => course.categories.includes("ADVANCED"))
       )
     );
-    // this.courses$.subscribe((snaps) => {
-    //   console.log(snaps);
-    // });
   }
 }
