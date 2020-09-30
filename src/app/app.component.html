@@ -34,6 +34,10 @@
       </button>
 
       <div class="filler"></div>
+
+      <ng-container *ngIf="pictureURL$ | async as pictureURL">
+        <img class="user-avatar" [src]="pictureURL" />
+      </ng-container>
     </div>
   </mat-toolbar>
 

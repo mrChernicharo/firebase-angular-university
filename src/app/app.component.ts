@@ -9,8 +9,9 @@ import { map } from "rxjs/operators";
   styleUrls: ["./app.component.css"],
 })
 export class AppComponent implements OnInit {
-  isLoggedIn$ = new Observable<boolean>();
-  isLoggedOut$ = new Observable<boolean>();
+  isLoggedIn$: Observable<boolean>;
+  isLoggedOut$: Observable<boolean>;
+  pictureURL$: Observable<string>;
 
   constructor(private afAuth: AngularFireAuth) {}
 
@@ -19,6 +20,9 @@ export class AppComponent implements OnInit {
 
     this.isLoggedIn$ = this.afAuth.authState.pipe(map((user) => !!user));
     this.isLoggedOut$ = this.isLoggedIn$.pipe(map((loggedIn) => !loggedIn));
+    this.pictureURL$ = this.afAuth.authState.pipe(
+      map((user) => (user ? user.photoURL : null))
+    );
   }
 
   logout() {
