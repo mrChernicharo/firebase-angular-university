@@ -38,6 +38,12 @@
 
     <span>{{ percentage / 100 | percent }}</span>
   </div>
+
+  <ng-container *ngIf="downloadURL$ | async as URL">
+    <img class="uploaded-image" [src]="URL" />
+  </ng-container>
+
+  <br />
 </mat-dialog-content>
 
 <mat-dialog-actions>

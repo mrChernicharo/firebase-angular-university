@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Course } from "../model/course";
 import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 import { CoursesService } from "app/services/courses.service";
-import { tap } from "rxjs/operators";
+import { concatMap, last, tap } from "rxjs/operators";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { Observable } from "rxjs";
 
@@ -19,6 +19,7 @@ export class CourseDialogComponent implements OnInit {
   course: Course;
 
   uploadPercentage$: Observable<number>;
+  downloadURL$: Observable<string>;
 
   constructor(
     private fb: FormBuilder,
@@ -39,7 +40,6 @@ export class CourseDialogComponent implements OnInit {
   ngOnInit() {}
 
   uploadFile(event) {
-    console.log(event);
     const file: File = event.target.files[0];
 
     const filePath = `courses/${this.course.id}/${file.name}/`;
@@ -48,7 +48,12 @@ export class CourseDialogComponent implements OnInit {
 
     this.uploadPercentage$ = task.percentageChanges();
 
-    task.snapshotChanges().subscribe(console.log);
+    this.downloadURL$ = task.snapshotChanges().pipe(
+      last(),
+      concatMap(() => this.storage.ref(filePath).getDownloadURL())
+    );
+
+    // this.downloadURL$.subscribe(console.log);
   }
 
   save() {
