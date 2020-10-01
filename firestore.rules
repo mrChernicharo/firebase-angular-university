@@ -58,6 +58,7 @@ service cloud.firestore {
 // /users/3xSZEjt1XuMPgaw7t1kw5XLyMk73  // fel-fake // fel@gmail.com
 // /users/K6MJTVPQpBZNch2qphO5uJvYFUh1  // felipe unigranrio // f.chernicharo@unigranrio.br
 
+// /courses/7LVQnU7RJg7oMoCsyOiN typescript course
 // /courses/dnu3hkjJoUA3GbhPWv5F
 // /courses/CyX3NOhG61gZX41fMA0O
 // /courses/n3YsEiDP82WxSyqFgNaQ angular PWA ADVANCED
