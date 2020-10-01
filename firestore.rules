@@ -1,0 +1,63 @@
+rules_version = '2';
+service cloud.firestore {
+
+  match /databases/{database}/documents{
+
+    function isAuthenticated(){
+      return  request.auth.uid != null;
+    }
+
+    function  isValidCourse() {
+    	return request.resource.data.seqNo is number
+      		&& request.resource.data.lessonsCount is number
+      		&& request.resource.data.lessonsCount > 0
+          && isNonEmptyString('url');
+    }
+
+    function isNonEmptyString(fieldName) {
+     return request.resource.data[fieldName] is string
+     		 && request.resource.data[fieldName].size() > 0;
+    }
+
+
+    function isKnownUser() {
+    	return isAuthenticated() &&
+      	exists( /databases/$(database)/documents/users/$(request.auth.uid) )
+    }
+    function isAdmin() {
+    	return isAuthenticated() &&
+    		get( /databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true
+    }
+
+
+  	match /users/{userId} {
+    	allow read, write: if false;
+    }
+
+		match /courses/{courseId} {
+    	allow read: if isKnownUser();
+
+      allow update, create: if isAdmin() && isValidCourse()
+      	&& resource.data.status == 'draft';
+
+      allow delete: if isAdmin()
+      	&& resource.data.status == 'draft';
+
+      match /lessons/{lessonId} {
+    		allow read: if isKnownUser();
+      	allow write: if isAdmin();
+
+    	}
+    }
+  }
+}
+
+//Minha collection /users :
+
+// /users/x8HZDaFUyMaM16Eh8SZlcGLTE512  // string7 // string7dev@gmail.com // ADMIN
+// /users/3xSZEjt1XuMPgaw7t1kw5XLyMk73  // fel-fake // fel@gmail.com
+// /users/K6MJTVPQpBZNch2qphO5uJvYFUh1  // felipe unigranrio // f.chernicharo@unigranrio.br
+
+// /courses/dnu3hkjJoUA3GbhPWv5F
+// /courses/CyX3NOhG61gZX41fMA0O
+// /courses/n3YsEiDP82WxSyqFgNaQ angular PWA ADVANCED
