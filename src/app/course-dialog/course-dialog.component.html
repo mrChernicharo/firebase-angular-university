@@ -17,12 +17,29 @@
     >
     </textarea>
   </mat-form-field>
-</mat-dialog-content>
-<div class="course-image-upload">
-  <span>Course: </span>
 
-  <input type="file" (change)="uploadFile($event)" />
-</div>
+  <div class="course-image-upload">
+    <span>Course: </span>
+
+    <input type="file" (change)="uploadFile($event)" />
+  </div>
+
+  <div class="upload-progress" *ngIf="uploadPercentage$ | async as percentage">
+    <h5>
+      Upload progress:
+    </h5>
+
+    <mat-progress-bar
+      class="progress-bar"
+      mode="determinate"
+      [value]="percentage"
+    >
+    </mat-progress-bar>
+
+    <span>{{ percentage / 100 | percent }}</span>
+  </div>
+</mat-dialog-content>
+
 <mat-dialog-actions>
   <button class="mat-raised-button" (click)="close()">
     Close
