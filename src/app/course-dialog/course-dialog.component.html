@@ -18,7 +18,11 @@
     </textarea>
   </mat-form-field>
 </mat-dialog-content>
+<div class="course-image-upload">
+  <span>Course: </span>
 
+  <input type="file" (change)="uploadFile($event)" />
+</div>
 <mat-dialog-actions>
   <button class="mat-raised-button" (click)="close()">
     Close
