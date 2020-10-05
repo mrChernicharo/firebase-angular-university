@@ -8,7 +8,11 @@ export const onAddLesson = functions.firestore
 
     console.log("running onAddLesson trigger ...");
 
+<<<<<<< HEAD
     return db.runTransaction(async (transaction) => {
+=======
+    db.runTransaction(async (transaction) => {
+>>>>>>> 5a17faace04a02f529319bf86b3d0e6bea2ec602
       const courseRef = snap.ref.parent
         .parent as FirebaseFirestore.DocumentReference<
         FirebaseFirestore.DocumentData
